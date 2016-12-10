@@ -16,7 +16,7 @@ module Kerio
 			def request(method, params)
 				body = JSON.generate({
 					jsonrpc: '2.0',
-					id: rand(10**12),
+					id: Kernel.rand(10**12),
 					method: method,
 					params: params,
 					token: @token,
@@ -35,7 +35,6 @@ module Kerio
 					verify: false,
 					follow_redirects: true,
 				)
-
 				@cookie = resp.headers['Set-Cookie'] if not resp.headers['Set-Cookie'].nil?
 
 				raise Kerio::Api::Error.new(resp, headers) if not resp["error"].nil?
