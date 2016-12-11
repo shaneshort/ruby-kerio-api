@@ -55,29 +55,4 @@ describe Kerio::Api::Session do
 			end
 		end
 	end
-
-	describe '#login' do
-		let(:unlogged_session){described_class.new(URI.parse('http://xxx:4000/admin'))}
-
-		it 'stores credentials' do
-
-			stub_request(:post, "http://xxx:4000/admin").
-				with(
-					body: "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"Session.login\",\"params\":{\"userName\":\"u\",\"password\":\"p\",\"application\":{\"name\":\"\",\"vendor\":\"\",\"version\":\"\"}},\"token\":null}",
-					headers: {'Accept'=>'application/json-rpc'}).
-				to_return(
-					status: 200,
-					body: JSON.generate({"result" => {"token" => "secret"}}),
-					headers: {
-						'Content-Type' => 'application/json-rpc',
-						'Set-Cookie' => 'sekret',
-					}
-				)
-
-			unlogged_session.login('u', 'p')
-
-			expect(unlogged_session.instance_eval{@token}).to eq 'secret'
-			expect(unlogged_session.instance_eval{@cookie}).to eq 'sekret'
-		end
-	end
 end

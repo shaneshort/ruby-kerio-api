@@ -6,6 +6,8 @@ module Kerio
 	module Api
 		class Session
 
+			attr_writer :token
+
 			def initialize(url)
 				@url = url
 
@@ -40,19 +42,6 @@ module Kerio
 				raise Kerio::Api::Error.new(resp, headers) if not resp["error"].nil?
 
 				return resp["result"]
-			end
-
-			def login(user, pass)
-				result = request(
-					'Session.login',
-					{
-						userName: user,
-						password: pass,
-						application: {name: "", vendor: "", version: ""},
-					}
-				)
-
-				@token = result['token']
 			end
 		end
 	end
