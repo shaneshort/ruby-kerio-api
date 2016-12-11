@@ -12,7 +12,7 @@ describe 'kerio-api' do
 		it 'logs in and calls some method' do
 			stub_request(:post, "http://xxxxxx:3000/admin").
 				with(
-					:body => "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"Session.login\",\"params\":{\"userName\":\"u\",\"password\":\"p\",\"application\":{\"name\":\"\",\"vendor\":\"\",\"version\":\"\"}},\"token\":null}",
+					:body => "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"Session.login\",\"params\":{\"userName\":\"u\",\"password\":\"p\",\"application\":{\"name\":\"\",\"vendor\":\"\",\"version\":\"\"}}}",
 					:headers => {'Accept'=>'application/json-rpc'}).
 				to_return(
 					status: 200,
@@ -54,7 +54,7 @@ describe 'kerio-api' do
 
 			stub_request(:post, "http://xxxxxx:3000/admin").
 				with(
-					:body => "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"Interface.meth\",\"params\":{\"a\":\"b\"},\"token\":null}",
+					:body => "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"Interface.meth\",\"params\":{\"a\":\"b\"}}",
 					:headers => {
 						'Accept' => 'application/json-rpc',
 					}

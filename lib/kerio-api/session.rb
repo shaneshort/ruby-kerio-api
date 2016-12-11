@@ -16,13 +16,13 @@ module Kerio
 			end
 
 			def request(method, params)
-				body = JSON.generate({
+				body = {
 					jsonrpc: '2.0',
 					id: Kernel.rand(10**12),
 					method: method,
 					params: params,
-					token: @token,
-				})
+				}
+				body['token'] = @token if not @token.nil?
 
 				headers = {
 					'Accept' => 'application/json-rpc',
@@ -32,7 +32,7 @@ module Kerio
 
 				resp = HTTParty.post(
 					@url.to_s,
-					body: body,
+					body: JSON.generate(body),
 					headers: headers,
 					verify: false,
 					follow_redirects: true,
