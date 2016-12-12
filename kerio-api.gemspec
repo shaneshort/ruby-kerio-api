@@ -18,9 +18,9 @@ Gem::Specification.new do |s|
 	s.license     = 'MIT'
 
 	s.add_runtime_dependency 'httparty', '~> 0.14'
-	s.add_runtime_dependency 'json', '~> 2'
+	s.add_runtime_dependency 'json', '~> 2.0.2'
 
-	s.add_development_dependency 'rspec', '~> 3'
-	s.add_development_dependency 'webmock', '~> 0'
-	s.add_development_dependency 'bundler', '~> 0'
+	s.add_development_dependency 'rspec', '~> 3.5'
+	s.add_development_dependency 'webmock', '~> 2.3.1'
+	s.add_development_dependency 'bundler', '~> 1.12'
 end
