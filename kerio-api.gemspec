@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
 	s.name        = 'kerio-api'
-	s.version     = '0.1.0'
+	s.version     = '0.1.1'
 	s.date        = '2016-12-11'
 	s.summary     = "Client library to access administration API of Kerio products"
 	s.description = "This gem allows simple access to administration API of Kerio products"
