@@ -5,7 +5,6 @@ require 'kerio-api/error'
 module Kerio
 	module Api
 		class Session
-
 			attr_writer :token
 
 			def initialize(url)
@@ -41,7 +40,7 @@ module Kerio
 
 				raise Kerio::Api::Error.new(resp, headers) if not resp["error"].nil?
 
-				return resp["result"]
+				return resp
 			end
 		end
 	end

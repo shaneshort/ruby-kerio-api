@@ -36,7 +36,7 @@ describe Kerio::Api::Session do
 
 				result = session.request('method', {k: 'v'})
 
-				expect(result).to be 42
+				expect(result['result']).to be 42
 				expect(stub).to have_been_requested
 			end
 		end

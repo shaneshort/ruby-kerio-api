@@ -1,6 +1,6 @@
 require 'kerio-api/session'
-require 'kerio-api/interface/generic'
-require 'kerio-api/interface/session'
+require 'kerio-api/method/generic'
+require 'kerio-api/method/session'
 
 module Kerio
 	module Api
@@ -12,12 +12,7 @@ module Kerio
 
 			def method_missing(method, *args, &block)
 
-				# prefer special implementation over the generic one
-				return Kerio::Api::Interface.const_get(method).new(method, @session)
-
-			rescue NameError
-
-				return Kerio::Api::Interface::Generic.new(method, @session)
+				return Kerio::Api::Method::Generic.new(names: [], session: @session).send(method, args[0])
 			end
 		end
 	end

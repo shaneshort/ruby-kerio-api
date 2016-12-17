@@ -7,13 +7,14 @@ describe 'kerio-api' do
 		allow(Kernel).to receive(:rand).and_return(1)
 	end
 
-	context 'successful request' do
+	context 'login and request' do
 
 		it 'logs in and calls some method' do
 			stub_request(:post, "http://xxxxxx:3000/admin").
 				with(
 					:body => "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"Session.login\",\"params\":{\"userName\":\"u\",\"password\":\"p\",\"application\":{\"name\":\"\",\"vendor\":\"\",\"version\":\"\"}}}",
-					:headers => {'Accept'=>'application/json-rpc'}).
+					:headers => {'Accept'=>'application/json-rpc'}
+				).
 				to_return(
 					status: 200,
 					body: JSON.generate({"result" => {"token": 'secret'}}),
@@ -37,13 +38,51 @@ describe 'kerio-api' do
 				).
 				to_return(
 					status: 200,
-					body: JSON.generate({"result" => 42}),
+					body: JSON.generate({ "jsonrpc" => "2.0", "id" => 1, "result" => 42}),
 					headers: {
 						'Content-Type' => 'application/json-rpc',
 					}
 				)
 
-			expect(client.Interface.meth({a: 'b'})).to eq 42
+			expect(client.Interface.meth({a: 'b'}).result).to eq 42
+		end
+	end
+
+	context 'single level method name' do
+		it 'calls the method' do
+			stub_request(:post, "http://xxxxxx:3000/admin").
+				with(
+					:body => "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"xxx\",\"params\":{\"a\":\"b\"}}",
+					:headers => {'Accept'=>'application/json-rpc'}
+				).
+				to_return(
+					status: 200,
+					body: JSON.generate({"result" => 42}),
+					headers: {
+						'Content-Type' => 'application/json-rpc',
+					}
+				)
+			client = Kerio::Api::Client.new(url: URI.parse('http://xxxxxx:3000/admin'))
+			expect(client.xxx({'a' => 'b'}).result).to eq 42
+		end
+	end
+
+	context 'four levels in method name' do
+		it 'calls the method' do
+			stub_request(:post, "http://xxxxxx:3000/admin").
+				with(
+					:body => "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"xxx.yyy.zzz.qqq\",\"params\":{\"a\":\"b\"}}",
+					:headers => {'Accept'=>'application/json-rpc'}
+				).
+				to_return(
+					status: 200,
+					body: JSON.generate({"result" => 42}),
+					headers: {
+						'Content-Type' => 'application/json-rpc',
+					}
+				)
+			client = Kerio::Api::Client.new(url: URI.parse('http://xxxxxx:3000/admin'))
+			expect(client.xxx.yyy.zzz.qqq({a: 'b'}).result).to eq 42
 		end
 	end
 
@@ -67,7 +106,7 @@ describe 'kerio-api' do
 					}
 				)
 
-			expect{client.Interface.meth({a: 'b'})}.to raise_error(Kerio::Api::Error)
+			expect{client.Interface.meth({a: 'b'}).result}.to raise_error(Kerio::Api::Error)
 		end
 	end
 end
