@@ -1,18 +1,20 @@
 require 'kerio-api/session'
+require 'kerio-api/chainable_method'
 require 'kerio-api/method/generic'
-require 'kerio-api/method/session'
+require 'kerio-api/method/session/login'
+require 'kerio-api/method/upload'
 
 module Kerio
 	module Api
 		class Client
-			def initialize (params)
+			include Kerio::Api::ChainableMethod
 
+			def initialize (params)
 				@session = Kerio::Api::Session.new(params[:url])
 			end
 
 			def method_missing(method, *args, &block)
-
-				return Kerio::Api::Method::Generic.new(names: [], session: @session).send(method, args[0])
+				return next_method(names: [method], session: @session, args: args)
 			end
 		end
 	end

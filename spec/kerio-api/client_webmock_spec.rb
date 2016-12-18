@@ -48,6 +48,13 @@ describe 'kerio-api' do
 		end
 	end
 
+	context 'upload method' do
+		it 'calls the method' do
+			client = Kerio::Api::Client.new(url: URI.parse('http://xxxxxx:3000/admin'))
+			expect(client.upload({'a' => 'b'}).result).to eq 42
+		end
+	end
+
 	context 'single level method name' do
 		it 'calls the method' do
 			stub_request(:post, "http://xxxxxx:3000/admin").

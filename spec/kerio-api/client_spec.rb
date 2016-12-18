@@ -23,7 +23,6 @@ describe Kerio::Api::Client do
 
 	describe '#method_missing' do
 		let(:client){described_class.new(url: url, user: 'username', password: 'pass')}
-		let(:method){double(Kerio::Api::Method::Generic)}
 		let(:urva){double(Kerio::Api::Method::Generic)}
 
 		before do
@@ -31,8 +30,7 @@ describe Kerio::Api::Client do
 		end
 
 		it 'Returns method' do
-			expect(Kerio::Api::Method::Generic).to receive(:new).with(names: [], session: session).and_return(method)
-			expect(method).to receive(:Urva).and_return(urva)
+			expect(Kerio::Api::Method::Generic).to receive(:new).with(names: [:Urva], session: session, args: []).and_return(urva)
 			expect(client.Urva).to eq urva
 		end
 	end
