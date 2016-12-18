@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
 	s.name        = 'kerio-api'
-	s.version     = '0.1.1'
+	s.version     = '0.2.0'
 	s.date        = '2016-12-11'
 	s.summary     = "Client library to access administration API of Kerio products"
 	s.description = "This gem allows simple access to administration API of Kerio products"
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
 	s.homepage    = 'https://github.com/balous/ruby-kerio-api'
 	s.license     = 'MIT'
 
-	s.add_runtime_dependency 'httparty', '~> 0.14'
+	s.add_runtime_dependency 'httmultiparty', '~> 0.3.16'
 	s.add_runtime_dependency 'json', '~> 2.0.2'
 
 	s.add_development_dependency 'rspec', '~> 3.5'

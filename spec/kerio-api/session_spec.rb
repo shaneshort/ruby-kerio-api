@@ -15,8 +15,8 @@ describe Kerio::Api::Session do
 		end
 	end
 
-	describe '#request' do
-		context 'successfull request' do
+	describe '#json_method' do
+		context 'successfull call' do
 
 			it 'sends request' do
 				stub = stub_request(:post, 'http://xxx:4000/admin').with(
@@ -34,7 +34,7 @@ describe Kerio::Api::Session do
 					}
 				)
 
-				result = session.request('method', {k: 'v'})
+				result = session.json_method('method', {k: 'v'})
 
 				expect(result['result']).to be 42
 				expect(stub).to have_been_requested
@@ -51,7 +51,7 @@ describe Kerio::Api::Session do
 					}
 				)
 
-				expect{session.request('method', {})}.to raise_error(Kerio::Api::Error)
+				expect{session.json_method('method', {})}.to raise_error(Kerio::Api::Error)
 			end
 		end
 	end

@@ -1,5 +1,5 @@
 require 'json'
-require 'httparty'
+require 'httmultiparty'
 require 'kerio-api/error'
 
 module Kerio
@@ -14,22 +14,27 @@ module Kerio
 				@cookie = nil
 			end
 
-			def request(method, params)
-				body = {
-					jsonrpc: '2.0',
-					id: Kernel.rand(10**12),
-					method: method,
-					params: params,
-				}
-				body['token'] = @token if not @token.nil?
-
+			def headers
 				headers = {
 					'Accept' => 'application/json-rpc',
 				}
 				headers['X-Token'] = @token if not @token.nil?
 				headers['Cookie'] = @cookie if not @cookie.nil?
 
-				resp = HTTParty.post(
+				headers
+			end
+
+			def json_method(name, params)
+
+				body = {
+					jsonrpc: '2.0',
+					id: Kernel.rand(10**12),
+					method: name,
+					params: params,
+				}
+				body['token'] = @token if not @token.nil?
+
+				resp = HTTMultiParty.post(
 					@url.to_s,
 					body: JSON.generate(body),
 					headers: headers,
