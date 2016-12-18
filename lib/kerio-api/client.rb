@@ -2,6 +2,7 @@ require 'kerio-api/session'
 require 'kerio-api/chainable_method'
 require 'kerio-api/method/generic'
 require 'kerio-api/method/session/login'
+require 'kerio-api/method/session/logout'
 require 'kerio-api/method/upload'
 
 module Kerio

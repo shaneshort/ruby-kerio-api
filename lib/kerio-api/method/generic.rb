@@ -11,22 +11,28 @@ module Kerio
 					@session = params[:session]
 
 					@args = params[:args]
+
+					__invoke_method if @args.count > 0
 				end
 
-				def invoke_method
+				def __invoke_method
 					if @resp.nil?
 						name = @names.join('.')
 						@resp = @session.json_method(name, @args[0])
 					end
 				end
 
-				def result
-					invoke_method
+				def __result
+					__invoke_method
 					return @resp['result']
 				end
 
 				def [](index)
-					return result[index]
+					return __result[index]
+				end
+
+				def pretty_print pp
+					pp __result
 				end
 
 				def method_missing(method, *args, &block)
