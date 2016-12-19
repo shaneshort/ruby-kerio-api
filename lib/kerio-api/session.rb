@@ -24,6 +24,12 @@ module Kerio
 				headers
 			end
 
+			def process_json_response(resp)
+				@cookie = resp.headers['Set-Cookie'] if not resp.headers['Set-Cookie'].nil?
+
+				raise Kerio::Api::Error.new(resp, headers) if ((not resp["error"].nil?) || (resp.code != 200))
+			end
+
 			def json_method(name, params)
 
 				body = {
@@ -41,10 +47,26 @@ module Kerio
 					verify: false,
 					follow_redirects: true,
 				)
-				@cookie = resp.headers['Set-Cookie'] if not resp.headers['Set-Cookie'].nil?
 
-				raise Kerio::Api::Error.new(resp, headers) if not resp["error"].nil?
+				process_json_response(resp)
+				return resp
+			end
 
+			def upload_file(file)
+				h = headers
+				h['Accept'] = '*/*'
+				h['Content-Type'] = 'multipart/form-data';
+
+				resp = HTTMultiParty.post(
+					@url.to_s + '/upload',
+					headers: h,
+					verify: false,
+					query: {
+						'newFile.bin': file,
+					}
+				)
+
+				process_json_response(resp)
 				return resp
 			end
 		end

@@ -42,7 +42,7 @@ describe Kerio::Api::Session do
 		end
 
 		context 'error response' do
-			it 'raises error' do
+			it 'error message' do
 				stub = stub_request(:post, 'http://xxx:4000/admin').to_return(
 					status: 200,
 					body: JSON.generate({"error" => ""}),
@@ -52,6 +52,62 @@ describe Kerio::Api::Session do
 				)
 
 				expect{session.json_method('method', {})}.to raise_error(Kerio::Api::Error)
+			end
+
+			it 'http error code' do
+				stub = stub_request(:post, 'http://xxx:4000/admin').to_return(
+					status: 400,
+				)
+
+				expect{session.json_method('method', {})}.to raise_error(Kerio::Api::Error)
+			end
+		end
+	end
+
+	describe '#upload_file' do
+		context 'successfull call' do
+
+			it 'sends request' do
+				stub = stub_request(:post, 'http://xxx:4000/admin/upload').with(
+					:headers => {
+						'Accept'=>'*/*',
+						'X-Token'=>'token',
+						'Cookie'=>'cookie',
+					}
+				).to_return(
+					status: 200,
+					body: JSON.generate({"result" => 42}),
+					headers: {
+						'Content-Type' => 'application/json-rpc',
+					}
+				)
+
+				result = session.upload_file('content')
+
+				expect(result['result']).to be 42
+				expect(stub).to have_been_requested
+			end
+		end
+
+		context 'error response' do
+			it 'error message' do
+				stub = stub_request(:post, 'http://xxx:4000/admin/upload').to_return(
+					status: 200,
+					body: JSON.generate({"error" => ""}),
+					headers: {
+						'Content-Type' => 'application/json-rpc',
+					}
+				)
+
+				expect{session.upload_file('content')}.to raise_error(Kerio::Api::Error)
+			end
+
+			it 'http error code' do
+				stub = stub_request(:post, 'http://xxx:4000/admin/upload').to_return(
+					status: 400,
+				)
+
+				expect{session.upload_file('content')}.to raise_error(Kerio::Api::Error)
 			end
 		end
 	end

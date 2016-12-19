@@ -61,12 +61,24 @@ describe 'kerio-api' do
 		end
 	end
 
-#	context 'upload method' do
-#		it 'calls the method' do
-#			client = Kerio::Api::Client.new(url: URI.parse('http://xxxxxx:3000/admin'))
-#			expect(client.upload({'a' => 'b'}).__result).to eq 42
-#		end
-#	end
+	context 'upload method' do
+		it 'calls the method' do
+			stub_request(:post, "http://xxxxxx:3000/admin/upload").
+				with(
+					:headers => {
+						'Accept' => '*/*',
+						'Content-Type' => 'multipart/form-data; boundary=-----------RubyMultipartPost'
+					}
+				).
+				to_return(
+					:status => 200,
+					:body => JSON.generate({ "jsonrpc" => "2.0", "id" => 1, "result" => 42}),
+					:headers => {}
+				)
+			client = Kerio::Api::Client.new(url: URI.parse('http://xxxxxx:3000/admin'))
+			expect(client.upload(__FILE__).__result).to eq 42
+		end
+	end
 
 	context 'logout' do
 		it 'calls logout' do

@@ -66,3 +66,9 @@ winroute.Session.logout
 
 ```
 
+### Upload Operator License
+```
+license_id = operator.upload('license.txt')['fileUpload']['id']
+pp operator.Server.uploadLicense(fileId: license_id)
+
+```
