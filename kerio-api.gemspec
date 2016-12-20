@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
 	s.name        = 'kerio-api'
-	s.version     = '0.2.0'
-	s.date        = '2016-12-11'
+	s.version     = '0.2.2'
+	s.date        = '2016-12-20'
 	s.summary     = "Client library to access administration API of Kerio products"
 	s.description = "This gem allows simple access to administration API of Kerio products"
 	s.authors     = ["Petr Baloun"]
@@ -11,8 +11,11 @@ Gem::Specification.new do |s|
 		"lib/kerio-api/client.rb",
 		"lib/kerio-api/error.rb",
 		"lib/kerio-api/session.rb",
-		"lib/kerio-api/interface/generic.rb",
-		"lib/kerio-api/interface/session.rb",
+		"lib/kerio-api/chainable_method.rb",
+		"lib/kerio-api/method/generic.rb",
+		"lib/kerio-api/method/upload.rb",
+		"lib/kerio-api/method/session/login.rb",
+		"lib/kerio-api/method/session/logout.rb",
 	]
 	s.homepage    = 'https://github.com/balous/ruby-kerio-api'
 	s.license     = 'MIT'
