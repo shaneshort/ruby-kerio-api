@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
 		"lib/kerio-api/session.rb",
 		"lib/kerio-api/chainable_method.rb",
 		"lib/kerio-api/method/generic.rb",
+		"lib/kerio-api/method/download.rb",
 		"lib/kerio-api/method/upload.rb",
 		"lib/kerio-api/method/session/login.rb",
 		"lib/kerio-api/method/session/logout.rb",
@@ -21,6 +22,7 @@ Gem::Specification.new do |s|
 	s.license     = 'MIT'
 
 	s.add_runtime_dependency 'httmultiparty', '~> 0.3.16'
+	s.add_runtime_dependency 'httparty', '~> 0.14.0'
 	s.add_runtime_dependency 'json', '~> 2.0.2'
 
 	s.add_development_dependency 'rspec', '~> 3.5'

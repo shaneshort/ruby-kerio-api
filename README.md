@@ -56,8 +56,8 @@ operator.Session.logout
 ```
 winroute = Kerio::Api::Client.new(url: URI.parse('https://localhost:4081/admin/api/jsonrpc/'))
 winroute.Session.login(
-	serName: 'Admin',
-	assword: 'pwd',
+	userName: 'Admin',
+	password: 'pwd',
 	application: {name: "", vendor: "", version: ""}
 )
 
@@ -71,4 +71,31 @@ winroute.Session.logout
 license_id = operator.upload('license.txt')['fileUpload']['id']
 pp operator.Server.uploadLicense(fileId: license_id)
 
+```
+
+### Operator Backup
+```
+pp operator.SystemBackup.backupCancel
+pp operator.SystemBackup.backupStart(
+        "sections": {
+                "SYSTEM_DATABASE": true,
+                "VOICE_MAIL": true,
+                "SYSTEM_LOG": true,
+                "CALL_LOG": true,
+                "LICENSE": true,
+                "RECORDED_CALLS": true,
+                "TFTP": true
+        }
+)
+while true do
+        break if operator.SystemBackup.get['statusBackup']['STATE']) != 1
+        sleep 1
+end
+backup = operator.SystemBackup.backupDownload["fileDownload"]
+
+File.open(backup["name"], "w") do |file|
+        operator.download(backup["url"]) do |fragment|
+                file.write(fragment)
+        end
+end
 ```

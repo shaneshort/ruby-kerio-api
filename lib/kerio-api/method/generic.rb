@@ -12,6 +12,8 @@ module Kerio
 
 					@args = params[:args]
 
+					@block = params[:block]
+
 					__invoke_method if @args.count > 0
 				end
 

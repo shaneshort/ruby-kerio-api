@@ -12,7 +12,7 @@ module Kerio
 			end
 
 			def method_missing(method, *args, &block)
-				return next_method(names: [method], session: @session, args: args)
+				return next_method(names: [method], session: @session, args: args, block: block)
 			end
 		end
 	end

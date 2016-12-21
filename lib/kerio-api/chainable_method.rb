@@ -2,6 +2,7 @@ module Kerio
 	module Api
 		module ChainableMethod
 			def next_method(params)
+
 				# prefer special implementation over the generic one
 				begin
 					source = "kerio-api/method/#{params[:names].join('/')}.rb".downcase

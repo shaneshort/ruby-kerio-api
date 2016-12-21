@@ -61,7 +61,7 @@ describe 'kerio-api' do
 		end
 	end
 
-	context 'upload method' do
+	context 'upload' do
 		it 'calls the method' do
 			stub_request(:post, "http://xxxxxx:3000/admin/upload").
 				with(

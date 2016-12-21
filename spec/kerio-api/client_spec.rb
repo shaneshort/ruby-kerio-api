@@ -30,7 +30,7 @@ describe Kerio::Api::Client do
 		end
 
 		it 'Returns method' do
-			expect(Kerio::Api::Method::Generic).to receive(:new).with(names: [:Urva], session: session, args: []).and_return(urva)
+			expect(Kerio::Api::Method::Generic).to receive(:new).with(names: [:Urva], session: session, args: [], block: nil).and_return(urva)
 			expect(client.Urva).to eq urva
 		end
 	end
