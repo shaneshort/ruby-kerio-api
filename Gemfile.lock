@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    kerio-api (0.2.2)
+    kerio-api (0.3.0)
       httmultiparty (~> 0.3.16)
       httparty (~> 0.14.0)
       json (~> 2.0.2)
@@ -55,4 +55,4 @@ DEPENDENCIES
   webmock (~> 2.3.1)
 
 BUNDLED WITH
-   1.12.5
+   1.13.6

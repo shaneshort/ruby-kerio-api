@@ -5,7 +5,7 @@ require 'kerio-api'
 def stub_json_request(method_name, params, result)
 	return stub_request(:post, "http://xxxxxx:3000/admin").
 		with(
-			:body => JSON.generate("jsonrpc": "2.0", "id": 1, "method": method_name, "params": params),
+			:body => JSON.generate("jsonrpc" => "2.0", "id" => 1, "method" => method_name, "params" => params),
 			:headers => {'Accept'=>'application/json-rpc'},
 		).
 		to_return(
@@ -30,7 +30,7 @@ describe 'kerio-api' do
 				).
 				to_return(
 					status: 200,
-					body: JSON.generate({"result" => {"token": 'secret'}}),
+					body: JSON.generate({"result" => {"token" => 'secret'}}),
 					headers: {
 						'Content-Type' => 'application/json-rpc',
 						'Set-Cookie' => 'sekret',
@@ -94,7 +94,7 @@ describe 'kerio-api' do
 	context 'single level method name' do
 		it 'calls the method' do
 
-			stub_json_request("xxx", {"a": "b"}, 42)
+			stub_json_request("xxx", {"a" => "b"}, 42)
 			client = Kerio::Api::Client.new(url: URI.parse('http://xxxxxx:3000/admin'))
 			expect(client.xxx({'a' => 'b'}).__result).to eq 42
 		end
@@ -102,7 +102,7 @@ describe 'kerio-api' do
 
 	context 'four levels in method name' do
 		it 'calls the method' do
-			stub_json_request("xxx.yyy.zzz.qqq", {"a": "b"}, 42)
+			stub_json_request("xxx.yyy.zzz.qqq", {"a" => "b"}, 42)
 			client = Kerio::Api::Client.new(url: URI.parse('http://xxxxxx:3000/admin'))
 			expect(client.xxx.yyy.zzz.qqq({a: 'b'}).__result).to eq 42
 		end

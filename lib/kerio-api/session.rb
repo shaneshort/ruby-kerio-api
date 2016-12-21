@@ -65,7 +65,7 @@ module Kerio
 					headers: h,
 					verify: false,
 					query: {
-						'newFile.bin': file,
+						'newFile.bin' => file,
 					}
 				)
 
