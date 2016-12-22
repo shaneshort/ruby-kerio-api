@@ -33,7 +33,7 @@ describe Kerio::Api::Client do
 	end
 
 	describe '#method_missing' do
-		let(:client){described_class.new(url: url, user: 'username', password: 'pass')}
+		let(:client){described_class.new(url: url)}
 		let(:urva){double(Kerio::Api::Method::Generic)}
 
 		before do
