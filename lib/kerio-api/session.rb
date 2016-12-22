@@ -28,7 +28,7 @@ module Kerio
 			def process_json_response(resp)
 				@cookie = resp.headers['Set-Cookie'] if not resp.headers['Set-Cookie'].nil?
 
-				raise Kerio::Api::Error.new(resp, headers) if ((not resp["error"].nil?) || (resp.code != 200))
+				raise Kerio::Api::Error.new(resp) if ((not resp["error"].nil?) || (resp.code != 200))
 			end
 
 			def json_method(name, params)
@@ -91,7 +91,7 @@ module Kerio
 					yield fragment
 				end
 
-				raise Kerio::Api::Error.new(resp, headers) if resp.code != 200
+				raise Kerio::Api::Error.new(resp) if resp.code != 200
 
 				return {"result" => {"code" => resp.code}}
 			end

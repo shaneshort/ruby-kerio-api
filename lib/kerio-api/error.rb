@@ -2,15 +2,28 @@ module Kerio
 	module Api
 		class Error < StandardError
 
-			attr_reader :resp, :headers
+			attr_reader :resp
 
-			def initialize resp, headers
+			def initialize resp
 				@resp = resp
-				@headers = headers
+			end
+
+			def headers
+				return @resp.headers
+			end
+
+			def code
+				return @resp.code
 			end
 
 			def to_s
-				return @resp["error"]["message"]
+				s = "Http code: #{code}"
+
+				if not @resp["jsonrpc"].nil?
+					s += ", json-rpc message: #{@resp["error"]["message"]}"
+				end
+
+				return s
 			end
 		end
 	end
