@@ -16,7 +16,6 @@ Gem::Specification.new do |s|
 		"lib/kerio-api/method/download.rb",
 		"lib/kerio-api/method/upload.rb",
 		"lib/kerio-api/method/session/login.rb",
-		"lib/kerio-api/method/session/logout.rb",
 	]
 	s.homepage    = 'https://github.com/balous/ruby-kerio-api'
 	s.license     = 'MIT'

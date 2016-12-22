@@ -100,14 +100,6 @@ describe 'kerio-api' do
 		end
 	end
 
-	context 'four levels in method name' do
-		it 'calls the method' do
-			stub_json_request("xxx.yyy.zzz.qqq", {"a" => "b"}, 42)
-			client = Kerio::Api::Client.new(url: URI.parse('http://xxxxxx:3000/admin'))
-			expect(client.xxx.yyy.zzz.qqq({a: 'b'}).__result).to eq 42
-		end
-	end
-
 	context 'error response' do
 		it 'raises error' do
 

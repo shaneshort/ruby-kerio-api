@@ -14,18 +14,17 @@ module Kerio
 
 					@block = params[:block]
 
-					__invoke_method if @args.count > 0
-				end
-
-				def __invoke_method
-					if @resp.nil?
-						name = @names.join('.')
-						@resp = @session.json_method(name, @args[0])
+					if ((@args.count > 0) || (@names.count == 2))
+						__invoke_method
 					end
 				end
 
+				def __invoke_method
+						name = @names.join('.')
+						@resp = @session.json_method(name, @args[0])
+				end
+
 				def __result
-					__invoke_method
 					return @resp['result']
 				end
 
