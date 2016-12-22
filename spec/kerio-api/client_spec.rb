@@ -13,11 +13,22 @@ describe Kerio::Api::Client do
 
 	describe '#initialize' do
 
-		it 'creates session object' do
+		context 'defaults' do
+			it 'creates session object' do
 
-			expect(Kerio::Api::Session).to receive(:new).with(url).and_return(session)
+				expect(Kerio::Api::Session).to receive(:new).with(url, true).and_return(session)
 
-			described_class.new(url: url)
+				described_class.new(url: url)
+			end
+		end
+
+		context 'insecure' do
+			it 'creates session object' do
+
+				expect(Kerio::Api::Session).to receive(:new).with(url, false).and_return(session)
+
+				described_class.new(url: url, insecure: true)
+			end
 		end
 	end
 

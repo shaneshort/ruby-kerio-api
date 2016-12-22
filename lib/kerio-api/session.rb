@@ -9,9 +9,10 @@ module Kerio
 		class Session
 			attr_writer :token
 
-			def initialize(url)
+			def initialize(url, verify_ssl)
 				@url = url
 
+				@verify_ssl = verify_ssl
 				@token = nil
 				@cookie = nil
 			end
@@ -47,7 +48,7 @@ module Kerio
 					@url.to_s,
 					body: JSON.generate(body),
 					headers: h,
-					verify: false,
+					verify: @verify_ssl,
 					follow_redirects: true,
 				)
 
@@ -63,10 +64,11 @@ module Kerio
 				resp = HTTMultiParty.post(
 					@url.to_s + '/upload',
 					headers: h,
-					verify: false,
+					verify: @verify_ssl,
 					query: {
 						'newFile.bin' => file,
-					}
+					},
+					follow_redirects: true,
 				)
 
 				process_json_response(resp)
@@ -82,8 +84,9 @@ module Kerio
 				resp = HTTParty.get(
 					u.to_s,
 					headers: h,
-					verify: false,
+					verify: @verify_ssl,
 					stream_body: true,
+					follow_redirects: true,
 				) do |fragment|
 					yield fragment
 				end

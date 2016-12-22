@@ -8,7 +8,11 @@ module Kerio
 			include Kerio::Api::ChainableMethod
 
 			def initialize (params)
-				@session = Kerio::Api::Session.new(params[:url])
+
+				verify_ssl = true
+				verify_ssl = !params[:insecure] if not params[:insecure].nil?
+
+				@session = Kerio::Api::Session.new(params[:url], verify_ssl)
 			end
 
 			def method_missing(method, *args, &block)

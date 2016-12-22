@@ -5,7 +5,16 @@ require 'json'
 
 describe Kerio::Api::Session do
 
-	let(:session){described_class.new(URI.parse('http://xxx:4000/admin'))}
+	let(:session){described_class.new(URI.parse('http://xxx:4000/admin'), true)}
+
+	let(:http_response_ok) do
+		response = double(HTTParty::Response)
+		allow(response).to receive(:code).and_return(200)
+		allow(response).to receive(:headers).and_return({})
+		allow(response).to receive(:[]).with('error').and_return(nil)
+
+		response
+	end
 
 	before do
 		allow(Kernel).to receive(:rand).and_return(1)
@@ -38,6 +47,18 @@ describe Kerio::Api::Session do
 
 				expect(result['result']).to be 42
 				expect(stub).to have_been_requested
+			end
+
+			it 'uses correct params' do
+
+				expect(HTTMultiParty).to receive(:post).with(
+					'http://xxx:4000/admin',
+					body: JSON.generate({'jsonrpc' => '2.0', 'id' => 1, 'method' => 'method', 'params' => {"result" => 42}, 'token' => 'token'}),
+					headers: {"X-Token" => "token", "Cookie" => "cookie", "Accept" => "application/json-rpc",},
+					verify: true,
+					follow_redirects: true,
+				).and_return(http_response_ok)
+				session.json_method('method', {"result" => 42})
 			end
 		end
 
@@ -87,6 +108,18 @@ describe Kerio::Api::Session do
 				expect(result['result']).to be 42
 				expect(stub).to have_been_requested
 			end
+
+			it 'uses correct params' do
+
+				expect(HTTMultiParty).to receive(:post).with(
+					'http://xxx:4000/admin/upload',
+					headers: {"X-Token" => "token", "Cookie" => "cookie", "Accept" => "*/*", "Content-Type" => "multipart/form-data"},
+					verify: true,
+					query: {'newFile.bin' => 'content'},
+					follow_redirects: true,
+				).and_return(http_response_ok)
+				session.upload_file('content')
+			end
 		end
 
 		context 'error response' do
@@ -110,5 +143,21 @@ describe Kerio::Api::Session do
 				expect{session.upload_file('content')}.to raise_error(Kerio::Api::Error)
 			end
 		end
+	end
+
+	describe '#download_file' do
+		it 'uses correct params' do
+
+			expect(HTTParty).to receive(:get).with(
+				'http://xxx:4000/file',
+				headers: {"X-Token" => "token", "Cookie" => "cookie", "Accept" => "*/*",},
+				verify: true,
+				follow_redirects: true,
+				stream_body: true
+			).and_return(http_response_ok)
+
+			session.download_file('/file'){|f|}
+		end
+
 	end
 end
