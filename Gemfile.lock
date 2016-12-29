@@ -1,10 +1,10 @@
 PATH
   remote: .
   specs:
-    kerio-api (0.3.1)
+    kerio-api (0.3.2)
       httmultiparty (~> 0.3.16)
       httparty (~> 0.14.0)
-      json (~> 2.0.2)
+      json_pure (~> 2.0.2)
 
 GEM
   remote: https://rubygems.org/
@@ -14,14 +14,14 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     diff-lcs (1.2.5)
-    hashdiff (0.3.1)
+    hashdiff (0.3.2)
     httmultiparty (0.3.16)
       httparty (>= 0.7.3)
       mimemagic
       multipart-post
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
-    json (2.0.2)
+    json_pure (2.0.2)
     mimemagic (0.3.2)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
