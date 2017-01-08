@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require 'pp'
+require 'kerio-api'
+require 'uri'
+
+# there's no docker image, we need running and activated control
+ip = ARGV[0]
+pass = ARGV[1]
+
+uri = URI.parse("https://#{ip}:4081/admin/api/jsonrpc")
+kwf = Kerio::Api::Client.new(url: uri, insecure: true)
+
+pp kwf.Session.login(userName: 'Admin', password: pass, application: {name: "", vendor: "", version: ""})
+
+license_id = kwf.upload('README.md')['fileUpload']['id']
+pp license_id
+begin
+	#this fails, we don't have a valid license file
+	kwf.ProductInfo.uploadLicense(fileId: license_id)
+
+rescue Kerio::Api::Error => e
+	pp e.resp
+end
+
+pp kwf.Session.logout
+
