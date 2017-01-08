@@ -1,0 +1,11 @@
+#!/bin/bash
+
+docker-compose -f docker-compose-operator.yml up -d --force-recreate --build kerio-api
+
+echo "Waiting for services to start"
+sleep 20
+
+docker-compose -f docker-compose-operator.yml exec kerio-api ruby -I /work/lib /work/tests/operator-test-inner.rb
+
+docker-compose -f docker-compose-operator.yml down
+rm -rf ./operator-var/*

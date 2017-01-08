@@ -1,0 +1,14 @@
+version: '2'
+services:
+  operator:
+    image: kerio/operator:stable
+    ports:
+      - 4021:4021
+    volumes:
+      - ./operator-var:/var
+  kerio-api:
+    build: ..
+    volumes:
+      - ..:/work
+    links:
+      - operator
