@@ -1,5 +1,9 @@
 version: '2'
 services:
+  connect:
+    build: ../docker/connect
+    ports:
+      - 4040:4040
   operator:
     image: kerio/operator:stable
     ports:
@@ -8,7 +12,6 @@ services:
       - ./operator-var:/var
   kerio-api:
     build: ..
-    volumes:
-      - ..:/work
     links:
+      - connect
       - operator

@@ -1,8 +1,0 @@
-version: '2'
-services:
-  connect:
-    build: ../docker/connect
-  kerio-api:
-    build: ..
-    links:
-      - connect

@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require 'rspec'
+
+file = ARGV.shift
+$api = ARGV.shift
+
+RSpec.configure do |config|
+  config.color = true
+  config.formatter = :documentation
+end
+
+RSpec::Core::Runner.run([file])
