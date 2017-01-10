@@ -32,7 +32,7 @@ pp mailserver.Statistics.getChartData({classname: 'Connections', name: 'SMTP', s
 mailserver.Session.logout
 ```
 
-### Register fresh new instance of Operator
+### Activate fresh new instance of Operator
 ```
 operator = Kerio::Api::Client.new(url: URI.parse('https://localhost:4021/admin/api/jsonrpc/'))
 
