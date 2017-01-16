@@ -9,7 +9,7 @@ services:
     ports:
       - 4021:4021
     volumes:
-      - ./operator-var:/var
+      - /var
   kerio-api:
     build: ..
     links:

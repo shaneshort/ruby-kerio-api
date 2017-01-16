@@ -1,6 +1,17 @@
 #!/usr/bin/env ruby
 
 require 'rspec'
+require 'socket'
+require 'pp'
+
+def test_port ip, port
+  begin
+    TCPSocket.new(ip, port)
+  rescue Errno::ECONNREFUSED
+    return false
+  end
+  return true
+end
 
 file = ARGV.shift
 $api = ARGV.shift
@@ -10,4 +21,4 @@ RSpec.configure do |config|
   config.formatter = :documentation
 end
 
-RSpec::Core::Runner.run([file])
+exit RSpec::Core::Runner.run([file])

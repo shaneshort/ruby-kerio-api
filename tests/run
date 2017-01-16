@@ -1,13 +1,23 @@
-#!/bin/bash
+#!/bin/bash -exu
 
-docker-compose up -d --force-recreate --build kerio-api
+function cleanup {
+	docker-compose down
+}
 
-echo "Waiting for services to start"
-sleep 20
+trap cleanup EXIT INT 
 
-docker-compose exec kerio-api ruby -I /work/lib tests/rspec_run /work/tests/operator_spec.rb https://operator:4021/admin/api/jsonrpc
-docker-compose exec kerio-api ruby -I /work/lib tests/rspec_run /work/tests/connect_spec.rb https://connect:4040/admin/api/jsonrpc
-docker-compose exec kerio-api ruby -I /work/lib tests/rspec_run /work/tests/control_spec.rb https://172.27.2.16:4081/admin/api/jsonrpc
+for ruby_version in '2.0' '2.1' '2.2' '2.3' ; do
 
-docker-compose down
-rm -rf ./operator-var
+	echo "Running tests in ruby $ruby_version"
+
+	docker pull ruby:$ruby_version
+	docker tag ruby:$ruby_version ruby_for_tests
+
+	docker-compose up -d --force-recreate --build kerio-api
+
+	docker-compose exec kerio-api ruby -I /work/lib tests/rspec_run /work/tests/operator_spec.rb https://operator:4021/admin/api/jsonrpc
+	docker-compose exec kerio-api ruby -I /work/lib tests/rspec_run /work/tests/connect_spec.rb https://connect:4040/admin/api/jsonrpc
+	docker-compose exec kerio-api ruby -I /work/lib tests/rspec_run /work/tests/control_spec.rb https://172.27.2.16:4081/admin/api/jsonrpc
+
+	cleanup
+done

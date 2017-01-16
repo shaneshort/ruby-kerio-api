@@ -8,6 +8,12 @@ password = 'ppppp'
 
 describe 'operator' do
 
+	before do
+		while not test_port(uri.host, uri.port)
+			sleep 1
+		end
+	end
+
 	it 'initializes operator' do
 		expect(
 			operator.ProductActivation.activate(

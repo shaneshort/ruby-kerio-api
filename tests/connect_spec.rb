@@ -8,6 +8,12 @@ password = 'ppppp'
 
 describe 'connect' do
 
+	before 'Wait for connect to start' do
+		while not test_port(uri.host, uri.port)
+			sleep 1
+		end
+	end
+
 	describe 'initialize' do
 		it 'initializes connect' do
 			expect(kms.Init.setHostname(hostname: 'host-name').__result).to be_instance_of Hash
@@ -17,8 +23,15 @@ describe 'connect' do
 		end
 
 		# connect needs some time after init
-		after do
-			sleep 30 
+		after 'Wait for connect restart' do
+			while true do
+				begin
+					kms.Session.login(userName: 'Admin', password: password, application: {name: "", vendor: "", version: ""})
+					break
+				rescue Kerio::Api::Error, Errno::ECONNRESET, Errno::ECONNREFUSED
+					sleep 1
+				end
+			end
 		end
 	end
 
