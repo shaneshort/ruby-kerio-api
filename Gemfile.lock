@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    kerio-api (0.3.2)
+    kerio-api (1.0.0)
       httmultiparty (~> 0.3.16)
       httparty (~> 0.14.0)
       json_pure (~> 2.0.2)
