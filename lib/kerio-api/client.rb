@@ -11,9 +11,10 @@ module Kerio
 			#
 			# @param url [URL] an URL of the API endpoint
 			# @param insecure [TrueClass] whether to ignore ssl verification error (true/false)
-			def initialize (url: nil, insecure: false)
+			# @param debug [TrueClass] whether to print json-rpc data sent over network
+			def initialize (url: nil, insecure: false, debug: false)
 
-				@session = Kerio::Api::Session.new(url, !insecure)
+				@session = Kerio::Api::Session.new(url, !insecure, debug)
 			end
 
 			def method_missing(method, *args, &block)

@@ -2,7 +2,7 @@ require 'kerio-api'
 require 'uri'
 
 uri = URI.parse($api)
-operator = Kerio::Api::Client.new(url: uri, insecure: true)
+operator = Kerio::Api::Client.new(url: uri, insecure: true, debug: true)
 
 password = 'ppppp'
 

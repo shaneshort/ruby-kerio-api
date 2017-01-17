@@ -3,16 +3,18 @@ require 'httmultiparty'
 require 'httparty'
 require 'kerio-api/error'
 require 'uri'
+require 'pp'
 
 module Kerio
 	module Api
 		class Session
 			attr_writer :token
 
-			def initialize(url, verify_ssl)
+			def initialize(url, verify_ssl, debug)
 				@url = url
 
 				@verify_ssl = verify_ssl
+				@debug = debug
 				@token = nil
 				@cookie = nil
 			end
@@ -44,6 +46,8 @@ module Kerio
 				}
 				body['token'] = @token if not @token.nil?
 
+				PP.pp body if @debug
+
 				resp = HTTMultiParty.post(
 					@url.to_s,
 					body: JSON.generate(body),
@@ -51,6 +55,8 @@ module Kerio
 					verify: @verify_ssl,
 					follow_redirects: true,
 				)
+
+				PP.pp resp if @debug
 
 				process_json_response(resp)
 				return resp

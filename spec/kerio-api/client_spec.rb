@@ -16,18 +16,18 @@ describe Kerio::Api::Client do
 		context 'defaults' do
 			it 'creates session object' do
 
-				expect(Kerio::Api::Session).to receive(:new).with(url, true).and_return(session)
+				expect(Kerio::Api::Session).to receive(:new).with(url, true, false).and_return(session)
 
 				described_class.new(url: url)
 			end
 		end
 
-		context 'insecure' do
+		context 'insecure and debug' do
 			it 'creates session object' do
 
-				expect(Kerio::Api::Session).to receive(:new).with(url, false).and_return(session)
+				expect(Kerio::Api::Session).to receive(:new).with(url, false, true).and_return(session)
 
-				described_class.new(url: url, insecure: true)
+				described_class.new(url: url, insecure: true, debug: true)
 			end
 		end
 	end

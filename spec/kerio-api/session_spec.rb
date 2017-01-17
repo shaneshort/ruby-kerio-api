@@ -5,7 +5,7 @@ require 'json'
 
 describe Kerio::Api::Session do
 
-	let(:session){described_class.new(URI.parse('http://xxx:4000/admin'), true)}
+	let(:session){described_class.new(URI.parse('http://xxx:4000/admin'), true, false)}
 
 	let(:http_response_ok) do
 		response = double(HTTParty::Response)
@@ -81,6 +81,34 @@ describe Kerio::Api::Session do
 				)
 
 				expect{session.json_method('method', {})}.to raise_error(Kerio::Api::Error)
+			end
+		end
+
+		context 'debug mode' do
+			let(:session){described_class.new(URI.parse('http://xxx:4000/admin'), true, true)}
+
+			it 'sends request with pp call' do
+				stub = stub_request(:post, 'http://xxx:4000/admin').with(
+					:body => "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"method\",\"params\":{\"k\":\"v\"},\"token\":\"token\"}",
+					:headers => {
+						'Accept'=>'application/json-rpc',
+						'X-Token'=>'token',
+						'Cookie'=>'cookie',
+					}
+				).to_return(
+					status: 200,
+					body: JSON.generate({"result" => 42}),
+					headers: {
+						'Content-Type' => 'application/json-rpc',
+					}
+				)
+
+				expect(PP).to receive(:pp).twice
+
+				result = session.json_method('method', {k: 'v'})
+
+				expect(result['result']).to be 42
+				expect(stub).to have_been_requested
 			end
 		end
 	end
