@@ -20,5 +20,5 @@ for ruby_version in '2.0' '2.1' '2.2' '2.3' ; do
 
 	docker-compose exec kerio-api ruby -I /work/lib tests/rspec_run /work/tests/operator_spec.rb https://operator:4021/admin/api/jsonrpc
 	docker-compose exec kerio-api ruby -I /work/lib tests/rspec_run /work/tests/connect_spec.rb https://connect:4040/admin/api/jsonrpc
-	docker-compose exec kerio-api ruby -I /work/lib tests/rspec_run /work/tests/control_spec.rb https://172.27.2.16:4081/admin/api/jsonrpc
+#	docker-compose exec kerio-api ruby -I /work/lib tests/rspec_run /work/tests/control_spec.rb https://172.27.2.16:4081/admin/api/jsonrpc
 done
