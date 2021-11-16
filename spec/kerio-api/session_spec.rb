@@ -51,10 +51,10 @@ describe Kerio::Api::Session do
 
 			it 'uses correct params' do
 
-				expect(HTTMultiParty).to receive(:post).with(
+				expect(HTTParty).to receive(:post).with(
 					'http://xxx:4000/admin',
 					body: JSON.generate({'jsonrpc' => '2.0', 'id' => 1, 'method' => 'method', 'params' => {"result" => 42}, 'token' => 'token'}),
-					headers: {"X-Token" => "token", "Cookie" => "cookie", "Accept" => "application/json-rpc",},
+					headers: {"X-Token" => "token", "Cookie" => "cookie", "Accept" => "application/json-rpc", "Accept-Encoding"=>"identity"},
 					verify: true,
 					follow_redirects: true,
 				).and_return(http_response_ok)
@@ -117,9 +117,10 @@ describe Kerio::Api::Session do
 		context 'successfull call' do
 
 			it 'sends request' do
-				stub = stub_request(:post, 'http://xxx:4000/admin/upload').with(
+				stub = stub_request(:post, 'http://xxx:4000/admin/upload?newFile.bin=content').with(
 					:headers => {
 						'Accept'=>'*/*',
+						'Accept-Encoding'=>'identity',
 						'X-Token'=>'token',
 						'Cookie'=>'cookie',
 					}
@@ -139,9 +140,9 @@ describe Kerio::Api::Session do
 
 			it 'uses correct params' do
 
-				expect(HTTMultiParty).to receive(:post).with(
+				expect(HTTParty).to receive(:post).with(
 					'http://xxx:4000/admin/upload',
-					headers: {"X-Token" => "token", "Cookie" => "cookie", "Accept" => "*/*", "Content-Type" => "multipart/form-data"},
+					headers: {"X-Token" => "token", "Cookie" => "cookie", "Accept" => "*/*", "Content-Type" => "multipart/form-data", "Accept-Encoding"=>"identity"},
 					verify: true,
 					query: {'newFile.bin' => 'content'},
 					follow_redirects: true,
@@ -178,7 +179,7 @@ describe Kerio::Api::Session do
 
 			expect(HTTParty).to receive(:get).with(
 				'http://xxx:4000/file',
-				headers: {"X-Token" => "token", "Cookie" => "cookie", "Accept" => "*/*",},
+				headers: {"X-Token" => "token", "Cookie" => "cookie", "Accept" => "*/*", "Accept-Encoding"=>"identity"},
 				verify: true,
 				follow_redirects: true,
 				stream_body: true

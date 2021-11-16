@@ -20,13 +20,12 @@ Gem::Specification.new do |s|
 	s.homepage    = 'https://github.com/balous/ruby-kerio-api'
 	s.license     = 'MIT'
 
-	s.add_runtime_dependency 'httmultiparty', '~> 0.3.16'
-	s.add_runtime_dependency 'httparty', '~> 0.14.0'
-	s.add_runtime_dependency 'json_pure', '~> 2.0.2'
+	s.add_runtime_dependency 'httparty'
+	s.add_runtime_dependency 'json_pure'
 
 	s.add_development_dependency 'rspec', '~> 3.5'
 	s.add_development_dependency 'webmock', '~> 2.3.1'
-	s.add_development_dependency 'bundler', '~> 1.12'
+	s.add_development_dependency 'bundler'
 	s.add_development_dependency 'yard', '~> 0.9.5'
 	s.add_development_dependency 'rake', '~> 10.0.0'
 	s.add_development_dependency 'simplecov', '~> 0.12.0'

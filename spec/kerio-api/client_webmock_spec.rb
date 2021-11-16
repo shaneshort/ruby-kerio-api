@@ -63,11 +63,10 @@ describe 'kerio-api' do
 
 	context 'upload' do
 		it 'calls the method' do
-			stub_request(:post, "http://xxxxxx:3000/admin/upload").
+			stub_request(:post, "http://xxxxxx:3000/admin/upload?newFile.bin=%23%3CFile:0x00000001250a46e8%3E").
 				with(
 					:headers => {
-						'Accept' => '*/*',
-						'Content-Type' => 'multipart/form-data; boundary=-----------RubyMultipartPost'
+						'Accept'=>'*/*', 'Accept-Encoding'=>'identity', 'Content-Type'=>'multipart/form-data', 'User-Agent'=>'Ruby'
 					}
 				).
 				to_return(
